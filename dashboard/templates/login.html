@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Log in{% endblock %}
+{% block bodyclass %}plain{% endblock %}
+{% block shell %}
+<div class="login" style="margin-top:14vh">
+  <h1>{{ E.TICKET }} Ticket desk</h1>
+  <p class="sub">Local dashboard. Enter the password from your <code>.env</code>.</p>
+  {% if flash %}<div class="flash bad">{{ flash.msg }}</div>{% endif %}
+  <form method="post" action="/login" class="panel">
+    <label for="pw">Password</label>
+    <input id="pw" type="password" name="password" autofocus required>
+    <p><button>Log in</button></p>
+  </form>
+</div>
+{% endblock %}

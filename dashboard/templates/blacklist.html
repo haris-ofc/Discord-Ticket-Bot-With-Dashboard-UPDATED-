@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Blacklist{% endblock %}
+{% block content %}
+<h1>Blacklist</h1>
+<p class="sub">Blacklisted users can't open new tickets.</p>
+<form method="post" action="/blacklist/add" class="panel row">
+  <input type="hidden" name="csrf" value="{{ csrf }}">
+  <div><label>Discord user ID</label><input type="text" name="user_id" required></div>
+  <div style="flex:1"><label>Reason</label><input type="text" name="reason"></div>
+  <button>Blacklist user</button>
+</form>
+<div class="panel">
+{% if rows %}
+<table><tr><th>User</th><th>Reason</th><th>Since</th><th></th></tr>
+{% for r in rows %}<tr><td>{{ uname(r.user_id) }}</td><td>{{ r.reason }}</td><td>{{ r.created_at|dt }}</td>
+<td><form method="post" action="/blacklist/{{ r.user_id }}/remove"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="ghost">Remove</button></form></td></tr>{% endfor %}
+</table>
+{% else %}<p class="empty">Nobody is blacklisted.</p>{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}Overview{% endblock %} · Ticket desk</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="{% block bodyclass %}{% endblock %}">
+{% block shell %}
+<nav class="side">
+  <div class="brand">{{ E.TICKET }} Ticket desk</div>
+  {% for href, label in [("/", "Overview"), ("/tickets", "Tickets"), ("/categories", "Categories"), ("/settings", "Settings & panel"), ("/blacklist", "Blacklist")] %}
+  <a href="{{ href }}" class="{{ 'on' if (path == href or (href != '/' and path.startswith(href))) else '' }}">{{ label }}</a>
+  {% endfor %}
+  <span class="spacer"></span>
+  <a href="/logout">Log out</a>
+</nav>
+<main>
+  {% if flash %}<div class="flash {{ 'bad' if flash.bad }}" role="status">{{ flash.msg }}</div>{% endif %}
+  {% block content %}{% endblock %}
+</main>
+{% endblock %}
+</body>
+</html>

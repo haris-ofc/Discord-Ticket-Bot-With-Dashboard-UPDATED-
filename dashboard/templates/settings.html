@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<h1>Settings & panel</h1>
+<p class="sub">Changes apply instantly. Emojis are edited in <code>emojis.py</code>.</p>
+
+<div class="panel">
+  <h2>Ticket panel</h2>
+  <div class="row">
+    <form method="post" action="/panel/send" class="row">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <div><label>Send new panel to</label>
+        <select name="channel_id">{% for c in channels %}<option value="{{ c.id }}" {{ 'selected' if c.id|string == s.panel_channel_id }}>#{{ c.name }}</option>{% endfor %}</select></div>
+      <button>Send panel</button>
+    </form>
+    <form method="post" action="/panel/update"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="ghost">Update existing panel</button></form>
+  </div>
+  <p class="hint">Update after editing the panel text, style or categories below.</p>
+</div>
+
+<form method="post" action="/settings">
+<input type="hidden" name="csrf" value="{{ csrf }}">
+
+<div class="panel"><h2>Staff & logging</h2><div class="grid">
+  <div><label>Staff role</label><select name="staff_role_id"><option value="0">— none —</option>{% for r in roles %}<option value="{{ r.id }}" {{ 'selected' if r.id|string == s.staff_role_id }}>{{ r.name }}</option>{% endfor %}</select></div>
+  <div><label>Log channel</label><select name="log_channel_id"><option value="0">— none —</option>{% for c in channels %}<option value="{{ c.id }}" {{ 'selected' if c.id|string == s.log_channel_id }}>#{{ c.name }}</option>{% endfor %}</select></div>
+</div>
+<div class="check"><input type="checkbox" id="dm" name="transcript_dm" {{ 'checked' if s.transcript_dm == '1' }}><label for="dm">DM the transcript and a rating prompt when a ticket closes</label></div></div>
+
+<div class="panel"><h2>Panel look</h2><div class="grid">
+  <div><label>Title</label><input type="text" name="panel_title" value="{{ s.panel_title }}"></div>
+  <div><label>Accent colour</label><input type="color" name="panel_color" value="{{ s.panel_color }}"></div>
+  <div><label>Category picker</label><select name="panel_style"><option value="buttons" {{ 'selected' if s.panel_style == 'buttons' }}>Buttons</option><option value="select" {{ 'selected' if s.panel_style == 'select' }}>Dropdown</option></select></div>
+</div>
+<p><label>Description</label><textarea name="panel_description">{{ s.panel_description }}</textarea></p></div>
+
+<div class="panel"><h2>Limits & automation</h2><div class="grid">
+  <div><label>Max open tickets per user (0 = no limit)</label><input type="number" min="0" name="max_open" value="{{ s.max_open }}"></div>
+  <div><label>Cooldown between tickets (seconds)</label><input type="number" min="0" name="cooldown" value="{{ s.cooldown }}"></div>
+  <div><label>Auto-close after inactivity (hours, 0 = off)</label><input type="number" min="0" name="auto_close_hours" value="{{ s.auto_close_hours }}"></div>
+</div></div>
+
+<div class="panel"><h2>Threads</h2><div class="grid">
+  <div><label>Auto-archive after</label><select name="archive_minutes">{% for m, l in [(60,"1 hour"),(1440,"24 hours"),(4320,"3 days"),(10080,"7 days")] %}<option value="{{ m }}" {{ 'selected' if m|string == s.archive_minutes }}>{{ l }}</option>{% endfor %}</select></div>
+  <div><label>Thread name template</label><input type="text" name="name_template" value="{{ s.name_template }}"><div class="hint">{status} {category} {number} {user}</div></div>
+</div>
+<div class="check"><input type="checkbox" id="pt" name="private_threads" {{ 'checked' if s.private_threads == '1' }}><label for="pt">Private threads (only the user and staff can see them)</label></div></div>
+
+<div class="panel"><h2>Messages</h2>
+  <label>Welcome message</label><textarea name="welcome_message">{{ s.welcome_message }}</textarea>
+  <div class="hint">{user} {staff} {category} {ticket_id}</div></div>
+
+<div class="panel"><h2>Maintenance</h2>
+  <div class="check"><input type="checkbox" id="mt" name="maintenance" {{ 'checked' if s.maintenance == '1' }}><label for="mt">Pause new tickets</label></div>
+  <label>Message shown to users</label><input type="text" name="maintenance_message" value="{{ s.maintenance_message }}"></div>
+
+<button>Save settings</button>
+</form>
+{% endblock %}

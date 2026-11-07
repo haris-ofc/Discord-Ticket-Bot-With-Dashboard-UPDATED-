@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Overview</h1>
+<p class="sub">{% if ready and guild %}Connected to <b>{{ guild.name }}</b>{% if latency %} · {{ latency }} ms{% endif %}{% else %}Bot is still connecting…{% endif %}</p>
+
+<div class="stubs">
+  <div class="stub hot"><div class="main"><div class="num">{{ stats.open }}</div>waiting for staff</div><div class="tag">OPEN</div></div>
+  <div class="stub"><div class="main"><div class="num">{{ stats.closed }}</div>resolved</div><div class="tag">CLOSED</div></div>
+  <div class="stub"><div class="main"><div class="num">{{ stats.total }}</div>all time</div><div class="tag">TOTAL</div></div>
+  <div class="stub"><div class="main"><div class="num">{{ stats.avg_rating or "—" }}</div>average rating</div><div class="tag">{{ E.STAR }} /5</div></div>
+</div>
+
+<div class="panel">
+  <h2>Latest tickets</h2>
+  {% if recent %}
+  <table>
+    <tr><th>#</th><th>Category</th><th>User</th><th>Subject</th><th>Status</th></tr>
+    {% for t in recent %}
+    <tr>
+      <td>{{ "%04d"|format(t.id) }}</td><td>{{ t.category_name }}</td><td>{{ uname(t.user_id) }}</td>
+      <td>{{ t.subject[:50] }}</td><td><span class="pill {{ t.status }}">{{ t.status }}</span></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}<p class="empty">No tickets yet. Send the panel from Settings & panel to get started.</p>{% endif %}
+</div>
+
+{% if stats.top_staff %}
+<div class="panel"><h2>Most claimed by</h2>
+  {% for r in stats.top_staff %}<div>{{ uname(r.claimed_by) }} — {{ r.c }}</div>{% endfor %}
+</div>
+{% endif %}
+{% endblock %}

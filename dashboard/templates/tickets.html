@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Tickets{% endblock %}
+{% block content %}
+<h1>Tickets</h1>
+<div class="tabs">
+  <a class="btn {{ '' if status == 'open' else 'ghost' }}" href="/tickets?status=open">Open</a>
+  <a class="btn {{ '' if status == 'closed' else 'ghost' }}" href="/tickets?status=closed">Closed</a>
+  <a class="btn {{ '' if status == 'all' else 'ghost' }}" href="/tickets?status=all">All</a>
+</div>
+<div class="panel">
+{% if rows %}
+<table>
+  <tr><th>#</th><th>Category</th><th>User</th><th>Subject</th><th>Priority</th><th>Status</th><th>Opened</th><th></th></tr>
+  {% for t in rows %}
+  <tr>
+    <td>{{ "%04d"|format(t.id) }}</td><td>{{ t.category_name }}</td><td>{{ uname(t.user_id) }}</td>
+    <td>{{ t.subject[:40] }}</td><td>{{ PRIORITY_EMOJI[t.priority] }} {{ t.priority }}</td>
+    <td><span class="pill {{ t.status }}">{{ t.status }}</span>{% if t.claimed_by %} · {{ uname(t.claimed_by) }}{% endif %}</td>
+    <td>{{ t.created_at|dt }}</td>
+    <td>
+      {% if t.thread_id %}<a href="{{ jump(t.thread_id) }}" target="_blank" rel="noopener">Open in Discord</a> ·{% endif %}
+      <a href="/transcripts/{{ t.id }}" target="_blank">Transcript</a>
+      {% if t.status == 'closed' %}
+      <form method="post" action="/tickets/{{ t.id }}/reopen"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="ghost">Reopen</button></form>
+      {% else %}
+      <form method="post" action="/tickets/{{ t.id }}/close"><input type="hidden" name="csrf" value="{{ csrf }}"><button class="danger" onclick="return confirm('Close ticket #{{ t.id }}?')">Close</button></form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}<p class="empty">Nothing here.</p>{% endif %}
+</div>
+{% endblock %}

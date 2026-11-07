@@ -1,0 +1,56 @@
+:root{
+  --ink:#1d2040; --ink-2:#2a2e57; --paper:#eceef7; --card:#fff; --line:#d9dcec;
+  --text:#1b1d33; --muted:#6a6f8f; --accent:#d93a6a; --accent-2:#f2b134; --ok:#1f9d6b; --bad:#c9304a;
+  --font:"Avenir Next","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);background:var(--paper);color:var(--text);display:flex;min-height:100vh;line-height:1.5}
+.side{width:224px;background:var(--ink);color:#c9cdee;padding:1.4rem 1rem;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:.2rem}
+.brand{font-weight:700;font-size:1.15rem;color:#fff;margin-bottom:1.4rem;display:flex;gap:.5rem;align-items:center}
+.side a{color:inherit;text-decoration:none;padding:.55rem .75rem;border-radius:8px}
+.side a:hover{background:var(--ink-2)}
+.side a.on{background:var(--ink-2);color:#fff;box-shadow:inset 3px 0 var(--accent-2)}
+.side .spacer{flex:1}
+main{flex:1;padding:2rem clamp(1rem,4vw,3rem);max-width:1100px}
+h1{font-size:1.7rem;margin:0 0 .2rem}
+.sub{color:var(--muted);margin:0 0 1.6rem;max-width:60ch}
+h2{font-size:1.05rem;margin:0 0 .9rem}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:1.2rem 1.3rem;margin-bottom:1.2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:.25rem}
+input[type=text],input[type=number],input[type=password],select,textarea{
+  width:100%;padding:.55rem .7rem;border:1px solid var(--line);border-radius:7px;font:inherit;background:#fff;color:var(--text)}
+textarea{min-height:84px;resize:vertical}
+input[type=color]{width:100%;height:2.4rem;border:1px solid var(--line);border-radius:7px;padding:2px;background:#fff}
+input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.check{display:flex;gap:.55rem;align-items:center;margin:.5rem 0}.check label{margin:0;color:var(--text)}
+button,.btn{background:var(--accent);color:#fff;border:0;border-radius:7px;padding:.55rem 1rem;font:inherit;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
+button.ghost,.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+button.danger{background:var(--bad)}
+.row{display:flex;gap:.6rem;align-items:end;flex-wrap:wrap}
+.flash{padding:.7rem 1rem;border-radius:8px;margin-bottom:1.2rem;background:#dff5ea;color:#145c40;border:1px solid #b7e4cf}
+.flash.bad{background:#fde4e8;color:#8d1f33;border-color:#f5bcc7}
+.hint{font-size:.8rem;color:var(--muted);margin-top:.3rem}
+
+/* The one memorable thing: ticket stubs */
+.stubs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-bottom:1.4rem}
+.stub{background:var(--card);border:1px solid var(--line);border-radius:10px;display:grid;grid-template-columns:1fr auto;position:relative;overflow:hidden}
+.stub .main{padding:1rem 1.1rem}
+.stub .num{font-size:2rem;font-weight:800;line-height:1.1}
+.stub .tag{writing-mode:vertical-rl;transform:rotate(180deg);padding:.8rem .45rem;border-left:2px dashed var(--line);color:var(--muted);font-size:.78rem;letter-spacing:.04em;text-align:center}
+.stub::before,.stub::after{content:"";position:absolute;right:calc(2.1rem - 9px);width:18px;height:18px;border-radius:50%;background:var(--paper);border:1px solid var(--line)}
+.stub::before{top:-10px}.stub::after{bottom:-10px}
+.stub.hot .num{color:var(--accent)}
+
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:.8rem;color:var(--muted);font-weight:600;padding:.4rem .6rem}
+td{padding:.65rem .6rem;border-top:1px dashed var(--line);vertical-align:middle}
+td form{display:inline}
+.pill{display:inline-block;padding:.1rem .55rem;border-radius:99px;font-size:.78rem;background:#e7e9f6}
+.pill.open{background:#dff5ea;color:#145c40}.pill.closed{background:#eee;color:#555}.pill.waiting{background:#fff1cf;color:#7a5600}
+.tabs{display:flex;gap:.4rem;margin-bottom:1rem}
+.empty{color:var(--muted);padding:1.2rem 0;text-align:center}
+.login{margin:auto;width:min(380px,92vw)}
+body.plain{display:block}
+@media (max-width:760px){body{flex-direction:column}.side{position:static;height:auto;width:100%;flex-direction:row;flex-wrap:wrap;padding:.7rem}.brand{margin:0 1rem 0 0}.side .spacer{display:none}}
+@media (prefers-reduced-motion:no-preference){button{transition:filter .15s}button:hover{filter:brightness(1.08)}}
