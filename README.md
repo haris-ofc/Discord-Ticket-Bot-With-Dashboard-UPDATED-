@@ -42,6 +42,10 @@ Category emojis are edited in the dashboard (Categories page).
 Overview, tickets (close/reopen/transcripts), categories, panel + all settings, blacklist.
 Bound to `127.0.0.1` by default. For remote access use an SSH tunnel or Tailscale, don't expose the port.
 
+## Credits
+- Credit To Hydra Developer - UMAR
+- Emoji Server 
+
 ## Notes
 - The bot only works in `GUILD_ID` and leaves any other server.
 - Discord limits thread renames to about 2 per 10 minutes, so rapid status changes may lag in the thread name.
